@@ -166,14 +166,14 @@ bash ~/activate.sh         # 激活（仅需一次）
 
 ## 🧠 AI 厂家配置
 
-编辑 `qq-bot/.env`，支持以下厂家：
+编辑 `qq-bot/.env`，支持以下厂家（**以填写的 `AI_BASE_URL` + `AI_MODEL` 为准**，`AI_PROVIDER` 仅作提示）：
 
 | 厂家 | 说明 |
 |------|------|
-| 智谱 AI | `ZHIPU_API_KEY` |
-| OpenAI | `OPENAI_API_KEY` + `OPENAI_BASE_URL` |
-| DeepSeek | `DEEPSEEK_API_KEY` |
-| 自定义 | 任意兼容 OpenAI 协议的接口，填 `BASE_URL` + `API_KEY` + `MODEL` |
+| 智谱 AI | `AI_PROVIDER=zhipu`，填 `AI_API_KEY`；默认免费，`AI_MODEL=glm-4-flash` |
+| OpenAI | `AI_PROVIDER=openai`，填 `AI_API_KEY` + `AI_BASE_URL` + `AI_MODEL` |
+| DeepSeek | `AI_PROVIDER=deepseek`，填 `AI_API_KEY` + `AI_BASE_URL` + `AI_MODEL` |
+| 自定义 | `AI_PROVIDER=custom`，任意兼容 OpenAI 协议的接口，填 `AI_BASE_URL` + `AI_API_KEY` + `AI_MODEL` |
 
 详见 `qq-bot/.env.example`。
 
