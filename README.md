@@ -179,6 +179,30 @@ bash ~/activate.sh         # 激活（仅需一次）
 
 ---
 
+## 🤖 AI 人设（性格）配置
+
+QQ 机器人的**性格/人设**由 `config.py` 里的 **`AI_SYSTEM_PROMPT`（系统提示词）** 决定，每次请求都会作为第一条 system 消息随请求发给大模型：
+
+```
+QQ消息 → ai.py → messages = [ system(AI_SYSTEM_PROMPT) + 历史 + 用户消息 ] → POST /chat/completions → 大模型
+```
+
+**确认方式：** 不用去智谱 / DeepSeek 等网页版的「AI 智能体」里配置性格——机器人是直接调用大模型的裸 API（OpenAI 兼容接口），与网页版智能体完全隔离，在网页版改人设**不会**影响机器人。机器人实际性格就是 `AI_SYSTEM_PROMPT` 那段文字（默认是「真人朋友闲聊」人设）。
+
+**更改方式：** 二选一，改完重启机器人即生效（`bash ~/bot.sh restart`）。
+
+1. **推荐：在 `qq-bot/.env` 里加一行**（升级不丢，方便以后自定义）：
+
+   ```
+   AI_SYSTEM_PROMPT=你是XXX，性格XXX，说话风格XXX……
+   ```
+
+2. 或直接修改 `config.py` 里 `AI_SYSTEM_PROMPT` 的默认值。
+
+> ⚠️ 注意：微信龙虾（OpenClaw）那边是**另一套独立的人设配置**，与 QQ 的 `AI_SYSTEM_PROMPT` 互不影响，需要分别设置。
+
+---
+
 ## ⚙️ 开机自启设置
 
 在手机「设置」里给 Termux 放行：
