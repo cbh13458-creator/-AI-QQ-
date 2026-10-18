@@ -234,14 +234,6 @@ QQ消息 → ai.py → messages = [ system(AI_SYSTEM_PROMPT) + 历史 + 用户�
 
 ## 💰 获取 Pro 激活码
 
-Pro 版通过**赞赏激活**的方式获取激活密钥：
-
-1. 扫描下方赞赏码，赞赏 **9.9 元**
-2. 在赞赏**备注里填写你的微信号**
-3. 作者看到后会通过微信把激活码发给你
-
-> Pro 版激活码格式为 `ABOT-XXXX-XXXX-XXXX`，一次性使用、绑定首次激活的设备。
-
 <p align="center">
   <img src="support-qrcode.png" alt="赞赏码" width="280">
 </p>
