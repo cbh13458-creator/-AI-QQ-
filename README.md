@@ -3,6 +3,7 @@
 一台安卓手机同时跑起 **QQ + 微信 AI 机器人**，支持多家大模型，自带开机自启和进程守护。
 
 > QQ 通道支持文字、图片、视频、联网搜索；微信基于 OpenClaw（龙虾）框架。
+> **QQ 和微信互相独立，可以只用 QQ、只用微信，或者两个都用。**
 
 ---
 
@@ -36,7 +37,45 @@
 
 ---
 
-## 🚀 安装步骤（两个版本通用）
+## 🎯 三种使用方式
+
+QQ 和微信是两个独立进程，**想用哪个就启动哪个**，不强制同时用。
+
+### 方式一：QQ + 微信都用（默认）
+
+1. 填好 `qq-bot/.env` 里的 QQ 凭证
+2. 绑定微信：`openclaw channels login --channel openclaw-weixin`
+3. 启动：
+
+```bash
+bash ~/bot.sh start        # 两个一起启动
+```
+
+### 方式二：只用 QQ（不需要微信）
+
+1. 填好 `qq-bot/.env` 里的 QQ 凭证
+2. **不要**执行 `openclaw channels login`（不绑微信就行）
+3. 启动：
+
+```bash
+bash ~/bot.sh start-qq     # 只启动 QQ
+```
+
+> 微信那边的 openclaw 网关即使跑着也没关系，没绑微信账号就不会工作。
+
+### 方式三：只用微信（不需要 QQ）
+
+1. 绑定微信：`openclaw channels login --channel openclaw-weixin`
+2. `qq-bot/.env` 里的 QQ 凭证**可以不填**（QQ 机器人没凭证会自动退出）
+3. 启动：
+
+```bash
+bash ~/bot.sh start-oc     # 只启动微信
+```
+
+---
+
+## 🚀 完整安装步骤
 
 ### 1. 安装 APK
 
@@ -68,13 +107,23 @@ bash ~/setup.sh
 - QQ 机器人凭证（AppID、Token 等）
 - 选择 AI 厂家并填写 API Key
 
-### 5. 绑定微信
+### 5. 绑定微信（只用 QQ 的可跳过）
 
 ```bash
 openclaw channels login --channel openclaw-weixin
 ```
 
 扫码登录微信。
+
+### 6. 启动机器人
+
+```bash
+bash ~/bot.sh start        # QQ + 微信
+# 或
+bash ~/bot.sh start-qq     # 只用 QQ
+# 或
+bash ~/bot.sh start-oc     # 只用微信
+```
 
 ---
 
@@ -94,19 +143,20 @@ bash ~/activate.sh
 
 ## 🎮 日常管理命令
 
-### 普通版
-
 ```bash
-bash ~/bot.sh start     # 启动 QQ + 微信
-bash ~/bot.sh status    # 查看运行状态
-bash ~/bot.sh stop      # 停止
+bash ~/bot.sh start        # 启动 QQ + 微信
+bash ~/bot.sh start-qq     # 只启动 QQ
+bash ~/bot.sh start-oc     # 只启动微信
+bash ~/bot.sh status       # 查看运行状态
+bash ~/bot.sh stop         # 停止全部
+bash ~/bot.sh stop-qq      # 只停止 QQ
+bash ~/bot.sh stop-oc      # 只停止微信
+bash ~/bot.sh              # 进入菜单（可视化操作）
 ```
 
-### Pro 版
+Pro 版额外命令：
 
 ```bash
-bash ~/bot.sh start        # 启动（未激活会提示先激活）
-bash ~/bot.sh status       # 查看状态
 bash ~/watchdog.sh &       # 启动进程守护（进程挂了自动拉起，每 30 秒检查）
 bash ~/health-check.sh     # 一键健康检查（进程 / 网关端口 / 微信渠道）
 bash ~/activate.sh         # 激活（仅需一次）
@@ -138,6 +188,8 @@ bash ~/activate.sh         # 激活（仅需一次）
 
 重启手机后会自动拉起机器人。Pro 版会等网络就绪再启动，失败自动重试。
 
+> **只想开机自启某一个？** 编辑 `~/.termux/boot/start.sh`，把 `bash "$HOME/bot.sh" start` 改成 `start-qq`（只启 QQ）或 `start-oc`（只启微信）。
+
 ---
 
 ## 🔴 Pro 版 vs 🟢 普通版
@@ -145,7 +197,7 @@ bash ~/activate.sh         # 激活（仅需一次）
 | 功能 | 普通版 | Pro 版 |
 |------|:------:|:------:|
 | 多 AI 厂家 | ✅ | ✅ |
-| QQ + 微信双通道 | ✅ | ✅ |
+| QQ + 微信双通道（可单用） | ✅ | ✅ |
 | 一键安装 / 开机自启 | ✅ | ✅ |
 | 一次性激活密钥（设备绑定） | ❌ | ✅ |
 | 进程守护（挂了自动拉） | ❌ | ✅ |
@@ -162,10 +214,17 @@ bash ~/activate.sh         # 激活（仅需一次）
 - Pro 版激活密钥**不随包分发**，需向作者单独获取。
 - 首次运行建议用 `bash ~/bot.sh start` 看日志确认正常，再开 watchdog。
 - 微信登录后不要主动退出微信账号，否则需要重新扫码。
+- QQ 和微信可独立使用，不需要的那个不配置、不启动即可。
 
 ---
 
 ## ❓ 常见问题
+
+**Q: 我只想用 QQ，微信那边会出问题吗？**
+A: 不会。不执行 `openclaw channels login` 就不会绑微信，用 `bash ~/bot.sh start-qq` 只启动 QQ 即可。
+
+**Q: 我只想用微信，QQ 凭证不填行不行？**
+A: 行。QQ 机器人检测到没凭证会自动退出，不影响微信。用 `bash ~/bot.sh start-oc` 只启动微信。
 
 **Q: 微信登不上 / 龙虾渠道异常？**
 A: 运行 `bash ~/health-check.sh`（Pro 版）或手动检查 `openclaw status`，确认网关端口和渠道状态。
