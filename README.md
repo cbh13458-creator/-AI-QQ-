@@ -232,11 +232,10 @@ QQ消息 → ai.py → messages = [ system(AI_SYSTEM_PROMPT) + 历史 + 用户�
 
 ---
 
-## 💰 获取 Pro 激活码
+## 🔴 Pro 版说明
 
-<p align="center">
-  <img src="support-qrcode.png" alt="赞赏码" width="280">
-</p>
+> **Pro 版暂时不能用，正在内部测试中，目前只能使用普通版。**
+> 免费下载普通版即可使用全部基础功能，Pro 版正式上线后会另行通知。
 
 ---
 
