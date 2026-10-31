@@ -1,20 +1,37 @@
 # -AI-QQ- 🤖
 
-一台安卓手机同时跑起 **QQ + 微信 AI 机器人**，支持多家大模型，自带开机自启和进程守护。
+一台安卓手机同时跑起 **QQ + 微信 AI 机器人**，支持多家大模型，自带开机自启、定时消息、网页管理面板和一键更新。
 
-> QQ 通道支持文字、图片、视频、联网搜索；微信基于 OpenClaw（龙虾）框架。
 > **QQ 和微信互相独立，可以只用 QQ、只用微信，或者两个都用。**
+> 定时消息、摸摸互动、图片/表情包理解为 QQ 侧功能；微信（OpenClaw）通道支持文字对话。
 
 ---
 
 ## 📥 下载
 
-前往 [Releases 页面](https://github.com/cbh13458-creator/-AI-QQ-/releases) 下载发布包：
-
 | 版本 | 下载 | 说明 |
 |------|------|------|
 | 🟢 普通版 | [android-bot-normal.zip](https://github.com/cbh13458-creator/-AI-QQ-/releases/latest/download/android-bot-normal.zip) | 多 AI 厂家 + 一键部署 + 开机自启 |
-| 🔴 Pro 版 | [android-bot-pro.zip](https://github.com/cbh13458-creator/-AI-QQ-/releases/latest/download/android-bot-pro.zip) | 在普通版基础上增加：一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
+| 🔴 Pro 版 | [android-bot-pro.zip](https://github.com/cbh13458-creator/-AI-QQ-/releases/latest/download/android-bot-pro.zip) | 普通版全部功能 + 一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
+
+前往 [Releases 页面](https://github.com/cbh13458-creator/-AI-QQ-/releases) 查看全部版本与更新日志。
+
+---
+
+## ✨ 功能一览（v1.1.0）
+
+| 功能 | 说明 | 通道 |
+|------|------|------|
+| 多 AI 厂家 | 智谱 / OpenAI / DeepSeek / 自定义 OpenAI 兼容接口 | QQ + 微信 |
+| 定时消息 | 每天固定时间自动在群里发消息 | **QQ 独占** |
+| 摸摸互动 | @机器人发「摸摸 / 拍拍 / 抱抱」会有回应 | **QQ 独占** |
+| 看图片 / 表情包 | 群友发图、发表情包，机器人都能看懂并回应 | QQ |
+| 联网搜索 | 默认开启，问实时信息会自动搜网 | QQ |
+| 网页管理面板 | 手机浏览器打开 `http://127.0.0.1:8080`，看状态 / 启停 / 管定时消息 / 看日志 | QQ |
+| 一键更新 | `bash ~/update.sh`，自动拉新版且**不改动你的配置** | QQ |
+| 开机自启 | Termux:Boot 自动拉起 | QQ + 微信 |
+| 进程守护（Pro） | 进程挂了自动拉起，每 30 秒检查 | Pro |
+| 一次性激活密钥（Pro） | 密钥一用即废，绑定设备 | Pro |
 
 ---
 
@@ -22,249 +39,198 @@
 
 ```
 ├── apk/                    # Termux 三件套安装包
-│   ├── Termux-v0.118.3-arm64.apk
-│   ├── Termux-API_v0.53.0_github-debug.apk
-│   └── TermuxBoot-v0.8.1.apk
 ├── qq-bot/                 # QQ 机器人源码
 │   ├── main.py / ai.py / config.py
-│   ├── requirements.txt
-│   └── .env.example        # AI 配置模板
-├── setup.sh                # 一键安装脚本
-├── bot.sh                  # 启停 / 状态管理
+│   ├── scheduler.py        # 定时消息
+│   ├── panel.py            # 网页管理面板
+│   └── .env.example        # AI / QQ 配置模板
+├── setup.sh                # 一键安装
+├── bot.sh                  # 启停 / 状态 / 定时消息 / 面板
+├── update.sh               # 一键更新（保留配置）
 ├── boot-start.sh           # 开机自启
-└── (Pro 版额外) activate.sh / watchdog.sh / health-check.sh / keys.dat
+├── VERSION                 # 版本号
+└── (Pro) activate.sh / watchdog.sh / health-check.sh / keys.dat
 ```
 
 ---
 
 ## 🎯 三种使用方式
 
-QQ 和微信是两个独立进程，**想用哪个就启动哪个**，不强制同时用。
+QQ 和微信是两个独立进程，**想用哪个就启动哪个**。
 
 ### 方式一：QQ + 微信都用（默认）
 
-1. 填好 `qq-bot/.env` 里的 QQ 凭证
-2. 绑定微信：`openclaw channels login --channel openclaw-weixin`
-3. 启动：
-
 ```bash
-bash ~/bot.sh start        # 两个一起启动
+bash ~/bot.sh start
 ```
 
 ### 方式二：只用 QQ（不需要微信）
 
 1. 填好 `qq-bot/.env` 里的 QQ 凭证
-2. **不要**执行 `openclaw channels login`（不绑微信就行）
+2. **不要**执行 `openclaw channels login`
 3. 启动：
 
 ```bash
-bash ~/bot.sh start-qq     # 只启动 QQ
+bash ~/bot.sh start-qq
 ```
-
-> 微信那边的 openclaw 网关即使跑着也没关系，没绑微信账号就不会工作。
 
 ### 方式三：只用微信（不需要 QQ）
 
 1. 绑定微信：`openclaw channels login --channel openclaw-weixin`
-2. `qq-bot/.env` 里的 QQ 凭证**可以不填**（QQ 机器人没凭证会自动退出）
+2. `qq-bot/.env` 里的 QQ 凭证可以不填
 3. 启动：
 
 ```bash
-bash ~/bot.sh start-oc     # 只启动微信
+bash ~/bot.sh start-oc
 ```
 
 ---
 
-## 🚀 完整安装步骤
+## 🚀 安装
 
-### 1. 安装 APK
-
-把 `apk/` 里的三个 APK 都装上：
-- **Termux** — 终端环境
-- **Termux:API** — 让 Termux 调用安卓系统能力
-- **Termux:Boot** — 开机自启
-
-### 2. 激活开机广播
-
-打开一次 **Termux:Boot** App（打开就行，不用操作），然后把它从后台划掉。
-
-### 3. 拷贝文件到 Termux
-
-把解压后的所有文件（`qq-bot/`、`setup.sh`、`bot.sh`、`boot-start.sh` 等）拷贝到 Termux 的家目录：
+1. 安装 `apk/` 里的三个 APK（Termux、Termux:API、Termux:Boot）
+2. 打开一次 Termux:Boot App（激活开机广播）
+3. 把解压后的所有文件拷到 Termux 家目录：
 
 ```bash
-# 假设文件在手机下载目录
 cp -r /sdcard/Download/android-bot/* ~/
 ```
 
-### 4. 运行安装脚本
+4. 一键安装：
 
 ```bash
 bash ~/setup.sh
 ```
 
-按提示填写：
-- QQ 机器人凭证（AppID、Token 等）
-- 选择 AI 厂家并填写 API Key
+按提示填写 QQ 凭证、选择 AI 厂家并填 API Key。
 
-### 5. 绑定微信（只用 QQ 的可跳过）
+5. 绑定微信（只用 QQ 可跳过）：
 
 ```bash
 openclaw channels login --channel openclaw-weixin
 ```
 
-扫码登录微信。
-
-### 6. 启动机器人
+6. 启动：
 
 ```bash
-bash ~/bot.sh start        # QQ + 微信
-# 或
-bash ~/bot.sh start-qq     # 只用 QQ
-# 或
-bash ~/bot.sh start-oc     # 只用微信
+bash ~/bot.sh start
 ```
 
 ---
 
-## 🔴 Pro 版额外步骤：激活
+## ⏰ 定时消息（QQ 独占）
 
-Pro 版**必须先激活才能启动**（密钥一用即废，绑定设备）：
+```bash
+bash ~/bot.sh sched                 # 交互式管理
+bash ~/bot.sh sched add 08:00 早安   # 每天 8 点发「早安」
+bash ~/bot.sh sched list
+bash ~/bot.sh sched groups
+bash ~/bot.sh sched del <任务ID>
+```
+
+> 先让机器人在群里被 @ 一次，它才会记住这个群。QQ 主动消息有官方配额，超限会失败。
+
+---
+
+## 🖥️ 网页管理面板
+
+```bash
+bash ~/bot.sh panel
+```
+
+手机浏览器打开 `http://127.0.0.1:8080`，可查看状态、一键启停、管理定时消息、查看日志。
+
+> 局域网访问：在 `qq-bot/.env` 设置 `PANEL_HOST=0.0.0.0` 后重启面板。
+
+---
+
+## 🔄 一键更新（保留配置）
+
+```bash
+bash ~/update.sh           # 检查并更新
+bash ~/update.sh --check   # 只检查
+bash ~/update.sh --force   # 强制重装
+```
+
+更新会备份旧文件到 `~/backup/时间戳/`，并**保留**：
+
+- `qq-bot/.env`（API Key / QQ 凭证）
+- `memory.json`（对话记忆）
+- `schedule.json` / `.groups.json`（定时任务与群记录）
+- Pro 版激活状态与密钥池
+- OpenClaw 的微信绑定
+
+> v1.0.0 用户没有 `update.sh`，请手动下载 v1.1.0 新包解压覆盖（覆盖前先备份 `qq-bot/.env`）。
+
+---
+
+## 🔴 Pro 版激活
 
 ```bash
 bash ~/activate.sh
 ```
 
-输入你拿到的激活密钥（格式 `ABOT-XXXX-XXXX-XXXX`，向作者单独获取）。
-
-激活成功后会生成设备绑定凭证，以后开机自动识别，无需重复激活。
+输入 `ABOT-XXXX-XXXX-XXXX` 格式的一次性密钥（向作者单独获取）。激活后绑定本设备，重启无需重复激活。
 
 ---
 
-## 🎮 日常管理命令
+## 🎮 常用命令
 
 ```bash
-bash ~/bot.sh start        # 启动 QQ + 微信
-bash ~/bot.sh start-qq     # 只启动 QQ
-bash ~/bot.sh start-oc     # 只启动微信
-bash ~/bot.sh status       # 查看运行状态
-bash ~/bot.sh stop         # 停止全部
-bash ~/bot.sh stop-qq      # 只停止 QQ
-bash ~/bot.sh stop-oc      # 只停止微信
-bash ~/bot.sh              # 进入菜单（可视化操作）
+bash ~/bot.sh                 # 菜单
+bash ~/bot.sh start           # 启动 QQ + 微信
+bash ~/bot.sh start-qq        # 只启动 QQ
+bash ~/bot.sh start-oc        # 只启动微信
+bash ~/bot.sh status          # 状态
+bash ~/bot.sh stop            # 停止全部
+bash ~/bot.sh sched           # 定时消息
+bash ~/bot.sh panel           # 管理面板
+bash ~/bot.sh update          # 检查更新
 ```
 
-Pro 版额外命令：
+Pro 版额外：
 
 ```bash
-bash ~/watchdog.sh &       # 启动进程守护（进程挂了自动拉起，每 30 秒检查）
-bash ~/health-check.sh     # 一键健康检查（进程 / 网关端口 / 微信渠道）
-bash ~/activate.sh         # 激活（仅需一次）
+bash ~/watchdog.sh &          # 进程守护
+bash ~/health-check.sh        # 健康检查
 ```
 
 ---
 
-## 🧠 AI 厂家配置
+## ⚙️ 开机自启
 
-编辑 `qq-bot/.env`，支持以下厂家（**以填写的 `AI_BASE_URL` + `AI_MODEL` 为准**，`AI_PROVIDER` 仅作提示）：
+在手机设置里给 Termux 放行：
 
-| 厂家 | 说明 |
-|------|------|
-| 智谱 AI | `AI_PROVIDER=zhipu`，填 `AI_API_KEY`；默认免费，`AI_MODEL=glm-4-flash` |
-| OpenAI | `AI_PROVIDER=openai`，填 `AI_API_KEY` + `AI_BASE_URL` + `AI_MODEL` |
-| DeepSeek | `AI_PROVIDER=deepseek`，填 `AI_API_KEY` + `AI_BASE_URL` + `AI_MODEL` |
-| 自定义 | `AI_PROVIDER=custom`，任意兼容 OpenAI 协议的接口，填 `AI_BASE_URL` + `AI_API_KEY` + `AI_MODEL` |
+1. 自启动权限 → 允许
+2. 耗电保护 / 电池优化 → 无限制
+3. 允许后台运行
 
-详见 `qq-bot/.env.example`。
-
----
-
-## 🤖 AI 人设（性格）配置
-
-QQ 机器人的**性格/人设**由 `config.py` 里的 **`AI_SYSTEM_PROMPT`（系统提示词）** 决定，每次请求都会作为第一条 system 消息随请求发给大模型：
-
-```
-QQ消息 → ai.py → messages = [ system(AI_SYSTEM_PROMPT) + 历史 + 用户消息 ] → POST /chat/completions → 大模型
-```
-
-**确认方式：** 不用去智谱 / DeepSeek 等网页版的「AI 智能体」里配置性格——机器人是直接调用大模型的裸 API（OpenAI 兼容接口），与网页版智能体完全隔离，在网页版改人设**不会**影响机器人。机器人实际性格就是 `AI_SYSTEM_PROMPT` 那段文字（默认是「真人朋友闲聊」人设）。
-
-**更改方式：** 二选一，改完重启机器人即生效（`bash ~/bot.sh restart`）。
-
-1. **推荐：在 `qq-bot/.env` 里加一行**（升级不丢，方便以后自定义）：
-
-   ```
-   AI_SYSTEM_PROMPT=你是XXX，性格XXX，说话风格XXX……
-   ```
-
-2. 或直接修改 `config.py` 里 `AI_SYSTEM_PROMPT` 的默认值。
-
-> ⚠️ 注意：微信龙虾（OpenClaw）那边是**另一套独立的人设配置**，与 QQ 的 `AI_SYSTEM_PROMPT` 互不影响，需要分别设置。
-
----
-
-## ⚙️ 开机自启设置
-
-在手机「设置」里给 Termux 放行：
-1. **自启动权限** → 允许
-2. **耗电保护 / 电池优化** → 设为「无限制」或关闭优化
-3. 锁屏后保持后台运行
-
-重启手机后会自动拉起机器人。Pro 版会等网络就绪再启动，失败自动重试。
-
-> **只想开机自启某一个？** 编辑 `~/.termux/boot/start.sh`，把 `bash "$HOME/bot.sh" start` 改成 `start-qq`（只启 QQ）或 `start-oc`（只启微信）。
-
----
-
-## 🔴 Pro 版 vs 🟢 普通版
-
-| 功能 | 普通版 | Pro 版 |
-|------|:------:|:------:|
-| 多 AI 厂家 | ✅ | ✅ |
-| QQ + 微信双通道（可单用） | ✅ | ✅ |
-| 一键安装 / 开机自启 | ✅ | ✅ |
-| 一次性激活密钥（设备绑定） | ❌ | ✅ |
-| 进程守护（挂了自动拉） | ❌ | ✅ |
-| 健康检查脚本 | ❌ | ✅ |
-| 日志自动轮转（防无限增长） | ❌ | ✅ |
-| Node 内存限制（防 OOM） | ❌ | ✅ |
-| 随机网关密钥固化 | ❌ | ✅ |
-
----
-
-## 🔴 Pro 版说明
-
-> **Pro 版暂时不能用，正在内部测试中，目前只能使用普通版。**
-> 免费下载普通版即可使用全部基础功能，Pro 版正式上线后会另行通知。
+> 只想自启一个通道：编辑 `~/.termux/boot/start.sh`，把 `start` 改成 `start-qq` 或 `start-oc`。
 
 ---
 
 ## ⚠️ 注意事项
 
-- 发布包内**不包含任何真实 API Key 或 QQ 凭证**，全部为占位符，需自行填写。
+- 发布包内**不含任何真实 API Key 或 QQ 凭证**，全部为占位符。
 - Pro 版激活密钥**不随包分发**，需向作者单独获取。
-- 首次运行建议用 `bash ~/bot.sh start` 看日志确认正常，再开 watchdog。
-- 微信登录后不要主动退出微信账号，否则需要重新扫码。
-- QQ 和微信可独立使用，不需要的那个不配置、不启动即可。
+- 微信登录后不要主动退出，否则需重新扫码。
+- QQ 主动消息（定时任务）受官方配额限制。
 
 ---
 
 ## ❓ 常见问题
 
 **Q: 我只想用 QQ，微信那边会出问题吗？**
-A: 不会。不执行 `openclaw channels login` 就不会绑微信，用 `bash ~/bot.sh start-qq` 只启动 QQ 即可。
+A: 不会。不绑定微信，用 `bash ~/bot.sh start-qq` 即可。
 
 **Q: 我只想用微信，QQ 凭证不填行不行？**
-A: 行。QQ 机器人检测到没凭证会自动退出，不影响微信。用 `bash ~/bot.sh start-oc` 只启动微信。
+A: 行，QQ 机器人没凭证会自动退出，不影响微信。
 
-**Q: 微信登不上 / 龙虾渠道异常？**
-A: 运行 `bash ~/health-check.sh`（Pro 版）或手动检查 `openclaw status`，确认网关端口和渠道状态。
-
-**Q: 手机重启后机器人没起来？**
-A: 检查 Termux 的自启动权限和电池优化是否放行，再打开一次 Termux:Boot App。
+**Q: 更新会覆盖我的 API Key 吗？**
+A: 不会。`update.sh` 明确保留 `.env`、记忆、定时任务和激活状态，并会先备份。
 
 **Q: Pro 版密钥提示已使用？**
-A: 密钥是一次性的，绑定到首次激活的设备。换设备需重新获取密钥。
+A: 密钥一次性，绑定首次激活的设备。换设备需重新获取。
 
 ---
 
