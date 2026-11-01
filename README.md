@@ -6,7 +6,23 @@
 
 ---
 
-## 📥 两种安装方式（二选一，不会搞混）
+## 📱 第一步：安装 Termux
+
+机器人跑在 Termux 里，请先安装这三个 APK（手机上点开安装即可）：
+
+| App | 下载 | 作用 |
+|-----|------|------|
+| **Termux** | [F-Droid 下载](https://f-droid.org/packages/com.termux/) / [GitHub](https://github.com/termux/termux-app/releases) | 主程序，必须装 |
+| **Termux:API** | [F-Droid 下载](https://f-droid.org/packages/com.termux.api/) / [GitHub](https://github.com/termux/termux-api/releases) | 调用手机系统能力 |
+| **Termux:Boot** | [F-Droid 下载](https://f-droid.org/packages/com.termux.boot/) / [GitHub](https://github.com/termux/termux-boot/releases) | 开机自启 |
+
+> 装好 Termux:Boot 后，**打开一次 Termux:Boot App** 激活开机广播，然后再打开 Termux 继续下面的步骤。
+>
+> 这三个 APK 也已经包含在完整包的 `apk/` 目录里。
+
+---
+
+## 📥 第二步：一键安装（二选一，不会搞混）
 
 **不用下载解压、不用拷文件**，直接复制下面其中一个 TXT 的全部内容，粘贴到 Termux 里回车运行即可。
 
