@@ -28,13 +28,13 @@
 
 ### 🅰 只用 QQ（推荐新手，最省事）
 
-复制 [install-qq-only.txt](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.4/install-qq-only.txt) 的全部内容粘贴到 Termux。
+复制 [install-qq-only.txt](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.5/install-qq-only.txt) 的全部内容粘贴到 Termux。
 
 脚本会自动：下载完整包 → 装依赖 → 填 `.env` → 开机自启只跑 QQ。
 
 ### 🅱 QQ + 微信双用
 
-复制 [install-qq-weixin.txt](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.4/install-qq-weixin.txt) 的全部内容粘贴到 Termux。
+复制 [install-qq-weixin.txt](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.5/install-qq-weixin.txt) 的全部内容粘贴到 Termux。
 
 脚本会自动：下载完整包 → 装 QQ 依赖 → 装微信龙虾(OpenClaw) → 微信扫码登录 → 开机自启 QQ+微信。
 
@@ -44,18 +44,20 @@
 
 | 版本 | 加速下载 | 说明 |
 |------|------|------|
-| 🟢 普通版 | [android-bot-normal.zip](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.4/android-bot-normal.zip) | 多 AI 厂家 + 一键部署 + 开机自启 |
-| 🔴 Pro 版 | [android-bot-pro.zip](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.4/android-bot-pro.zip) | 普通版全部功能 + 一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
+| 🟢 普通版 | [android-bot-normal.zip](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.5/android-bot-normal.zip) | 多 AI 厂家 + 一键部署 + 开机自启 |
+| 🔴 Pro 版 | [android-bot-pro.zip](https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.5/android-bot-pro.zip) | 普通版全部功能 + 一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
 
 前往 [Releases 页面](https://github.com/cbh13458-creator/-AI-QQ-/releases) 查看全部版本与更新日志。
 
 ---
 
-## ✨ 功能一览（v1.1.4）
+## ✨ 功能一览（v1.1.5）
 
 | 功能 | 说明 | 通道 |
 |------|------|------|
 | 多 AI 厂家 | 智谱 / OpenAI / DeepSeek / 自定义 OpenAI 兼容接口 | QQ + 微信 |
+| **群内功能目录** | @机器人 发「菜单 / 目录 / 帮助」，返回分层功能目录（聊天 / 娱乐 / 管理） | **QQ** |
+| **版本更新推送** | 每 6 小时检查一次 GitHub 新版本，自动推送到用过的群和私聊 | QQ |
 | **引用消息识别** | 群里引用某条消息再 @机器人，机器人能看到被引用的内容（需群设置开启「允许获取上下文」） | **QQ** |
 | **发表情包 / 找图** | @机器人 说「来个猫猫表情包」「找张初音未来头像」会自动搜图发送 | **QQ** |
 | 看图片 / 表情包 | @机器人 且图片在同一条消息里，机器人能看懂并回应 | QQ |
@@ -104,6 +106,32 @@ bash ~/bot.sh status      # 查看状态
 
 ---
 
+## 📖 群内功能目录
+
+在群里 @机器人 发「**菜单**」（或「目录 / 帮助」），会返回一份分层目录：
+
+```
+功能目录  v1.1.5
+━━━━━━━━━━━━━━
+▸ 聊天
+   @我 + 说话      闲聊 / 问答 / 联网搜索
+   @我 + 引用消息   能看到被引用的内容
+   @我 + 发图片     能看懂并回应
+▸ 娱乐
+   @我 摸摸        摸摸头互动
+   @我 来个猫猫表情包   网上找图发给你
+▸ 管理
+   定时消息        bash ~/bot.sh sched
+   管理面板        http://127.0.0.1:8080
+   检查更新        bash ~/bot.sh update
+━━━━━━━━━━━━━━
+```
+
+> QQ 群管家那种可折叠面板是官方插件的界面，第三方机器人无法往里加项；这里用相同层级样式发送，效果等价。
+> 另外可以在 [q.qq.com](https://q.qq.com/) 后台「指令管理」里配置 `/` 指令，用户输入 `/` 也能看到指令列表。
+
+---
+
 ## ⏰ 定时消息（QQ 独占）
 
 ```bash
@@ -139,7 +167,7 @@ bash ~/bot.sh update
 自动拉取最新版，**不覆盖你的 `.env`、记忆、定时任务、激活状态**。也可以下载热修包手动升级：
 
 ```bash
-curl -L -o ~/tmp/hfix.zip https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.4/hotfix-v1.1.4.zip
+curl -L -o ~/tmp/hfix.zip https://ghfast.top/https://github.com/cbh13458-creator/-AI-QQ-/releases/download/v1.1.5/hotfix-v1.1.5.zip
 rm -rf ~/hotfix && mkdir -p ~/hotfix
 python3 -m zipfile -e ~/tmp/hfix.zip ~/hotfix && bash ~/hotfix/apply.sh
 ```
