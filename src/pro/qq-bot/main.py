@@ -339,6 +339,19 @@ def is_menu_request(text: str) -> bool:
     return slash_command(text) in _MENU_WORDS or (text or "").strip().lower() in _MENU_WORDS
 
 
+# 「忘记 / 清除记忆」这类请求：直接清空当前会话的上下文
+_FORGET_WORDS = {
+    "忘记", "忘掉", "忘了吧", "忘记吧", "忘掉吧", "忘记刚才的", "忘掉刚才的",
+    "清除记忆", "清空记忆", "重置记忆", "忘记聊天", "清除聊天记录",
+    "forget", "reset",
+}
+
+
+def is_forget_request(text: str) -> bool:
+    cleaned = re.sub(r"\s+", "", text or "").strip("。．.!！~～")
+    return slash_command(cleaned) in _FORGET_WORDS or cleaned.lower() in _FORGET_WORDS
+
+
 # 斜杠指令：/菜单 /摸摸 /表情包 /定时 /状态
 _SLASH_RE = re.compile(r"^[\/／]([^\s]{1,16})\s*(.*)$")
 
@@ -368,6 +381,7 @@ def menu_text() -> str:
         "   /菜单 ······ 打开这个目录\n"
         "   @我 + 说话 ·· 闲聊 / 问答 / 联网搜索\n"
         "   @我 + 引用消息 ·· 能看到被引用的内容\n"
+        "   /忘记 ······ 清空当前会话记忆\n"
         "▸ 娱乐\n"
         "   /摸摸 ······ 摸摸头互动\n"
         "   /表情包 ···· 随机搜一张表情包\n"
@@ -798,6 +812,15 @@ class AIBotClient(botpy.Client):
 
         # 斜杠指令：/菜单 /摸摸 /表情包 /定时 /状态
         if await self._handle_slash(message, text):
+            return
+
+        # 「忘记 / 清除记忆」：清空当前会话上下文，不再走 AI
+        if is_forget_request(text):
+            cleared = self.ai.forget(session_id)
+            await message.reply(
+                content="好，刚才聊的我都忘了，重新开始吧～"
+                if cleared else "我本来就没记住啥，重新开始吧～"
+            )
             return
 
         # 群互动：/签到 /排行榜 /我的积分 /词云

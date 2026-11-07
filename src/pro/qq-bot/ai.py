@@ -106,6 +106,16 @@ class AIClient:
             except Exception:  # noqa: BLE001
                 pass
 
+    def forget(self, session_id: str) -> bool:
+        """清空某个会话的聊天记忆，返回是否真的清掉了内容。"""
+        if not session_id:
+            return False
+        removed = self._history.pop(session_id, None)
+        if not removed:
+            return False
+        self._save_memory()
+        return True
+
     def _get_history(self, session_id: str) -> list[dict]:
         """取某个会话的历史消息（不含 system）。"""
         if not session_id:
