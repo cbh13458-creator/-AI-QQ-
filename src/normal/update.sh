@@ -6,7 +6,7 @@
 #        bash ~/update.sh --check  只检查是否有新版本
 #        bash ~/update.sh --force  强制重新下载覆盖
 # ============================================================
-REPO="cbh13458-creator/groupmate"
+REPO="cbh13458-creator/GroupMate"
 DIR="$HOME"
 cd "$DIR" || exit 1
 

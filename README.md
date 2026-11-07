@@ -28,13 +28,13 @@
 
 ### 🅰 只用 QQ（推荐新手，最省事）
 
-复制 [install-qq-only.txt](https://ghfast.top/https://github.com/cbh13458-creator/groupmate/releases/download/v1.1.6/install-qq-only.txt) 的全部内容粘贴到 Termux。
+复制 [install-qq-only.txt](https://ghfast.top/https://github.com/cbh13458-creator/GroupMate/releases/download/v1.1.6/install-qq-only.txt) 的全部内容粘贴到 Termux。
 
 脚本会自动：下载完整包 → 装依赖 → 填 `.env` → 开机自启只跑 QQ。
 
 ### 🅱 QQ + 微信双用
 
-复制 [install-qq-weixin.txt](https://ghfast.top/https://github.com/cbh13458-creator/groupmate/releases/download/v1.1.6/install-qq-weixin.txt) 的全部内容粘贴到 Termux。
+复制 [install-qq-weixin.txt](https://ghfast.top/https://github.com/cbh13458-creator/GroupMate/releases/download/v1.1.6/install-qq-weixin.txt) 的全部内容粘贴到 Termux。
 
 脚本会自动：下载完整包 → 装 QQ 依赖 → 装微信龙虾(OpenClaw) → 微信扫码登录 → 开机自启 QQ+微信。
 
@@ -44,10 +44,10 @@
 
 | 版本 | 加速下载 | 说明 |
 |------|------|------|
-| 🟢 普通版 | [android-bot-normal.zip](https://ghfast.top/https://github.com/cbh13458-creator/groupmate/releases/download/v1.1.6/android-bot-normal.zip) | 多 AI 厂家 + 一键部署 + 开机自启 |
-| 🔴 Pro 版 | [android-bot-pro.zip](https://ghfast.top/https://github.com/cbh13458-creator/groupmate/releases/download/v1.1.6/android-bot-pro.zip) | 普通版全部功能 + 一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
+| 🟢 普通版 | [android-bot-normal.zip](https://ghfast.top/https://github.com/cbh13458-creator/GroupMate/releases/download/v1.1.6/android-bot-normal.zip) | 多 AI 厂家 + 一键部署 + 开机自启 |
+| 🔴 Pro 版 | [android-bot-pro.zip](https://ghfast.top/https://github.com/cbh13458-creator/GroupMate/releases/download/v1.1.6/android-bot-pro.zip) | 普通版全部功能 + 一次性激活密钥、进程守护、健康检查、日志轮转、内存限制 |
 
-前往 [Releases 页面](https://github.com/cbh13458-creator/groupmate/releases) 查看全部版本与更新日志。
+前往 [Releases 页面](https://github.com/cbh13458-creator/GroupMate/releases) 查看全部版本与更新日志。
 
 ---
 
@@ -192,7 +192,7 @@ bash ~/bot.sh update
 自动拉取最新版，**不覆盖你的 `.env`、记忆、定时任务、激活状态**。也可以下载热修包手动升级：
 
 ```bash
-curl -L -o ~/tmp/hfix.zip https://ghfast.top/https://github.com/cbh13458-creator/groupmate/releases/download/v1.1.6/hotfix-v1.1.6.zip
+curl -L -o ~/tmp/hfix.zip https://ghfast.top/https://github.com/cbh13458-creator/GroupMate/releases/download/v1.1.6/hotfix-v1.1.6.zip
 rm -rf ~/hotfix && mkdir -p ~/hotfix
 python3 -m zipfile -e ~/tmp/hfix.zip ~/hotfix && bash ~/hotfix/apply.sh
 ```

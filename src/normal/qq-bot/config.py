@@ -57,7 +57,7 @@ ENABLE_GROUP_TOOLS = os.getenv("ENABLE_GROUP_TOOLS", "true").lower() in ("1", "t
 # 检测到 GitHub 有新版本时，自动推送到记录过的群和私聊（同一版本只推一次）
 ENABLE_UPDATE_PUSH = os.getenv("ENABLE_UPDATE_PUSH", "true").lower() in ("1", "true", "yes", "on")
 UPDATE_CHECK_INTERVAL_HOURS = int(os.getenv("UPDATE_CHECK_INTERVAL_HOURS", "6"))
-GITHUB_REPO = os.getenv("GITHUB_REPO", "cbh13458-creator/groupmate")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "cbh13458-creator/GroupMate")
 
 # ============ QQ 独占：定时消息 ============
 SCHEDULE_ENABLED = os.getenv("SCHEDULE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
