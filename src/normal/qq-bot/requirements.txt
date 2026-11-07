@@ -1,0 +1,5 @@
+qq-botpy
+aiohttp
+httpx
+python-dotenv
+Pillow

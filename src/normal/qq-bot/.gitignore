@@ -1,0 +1,10 @@
+.env
+*.log
+memory.json
+schedule.json
+schedule.state.json
+.groups.json
+groupstats.json
+__pycache__/
+*.pyc
+.botstate*
